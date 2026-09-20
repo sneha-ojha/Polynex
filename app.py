@@ -1,9 +1,8 @@
 
 import streamlit as st
 
-from validator import validate_domain
-from config import DOMAINS
-from agent import run_agent
+from veridian.employee_requests import EMPLOYEE_REQUESTS
+from veridian.ai_agent import run_ai_agent
 
 
 # ============================================================
@@ -816,68 +815,28 @@ hr {
 """)
 
 
-# ============================================================
-# HEADER
-# ============================================================
-
-st.html("""
-<div class="enterprise-header">
-
-    <div class="brand">
-
-        <div class="brand-mark">
-            ✦
-        </div>
-
-        <div>
-
-            <div class="brand-name">
-                ExperteezAI Enterprise
-            </div>
-
-            <div class="brand-subtitle">
-                Enterprise Intelligence Platform <br> by Sneha Ojha - 2301010256
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="header-badge">
-        Internal Use · Knowledge Owners
-    </div>
-
-</div>
-""")
-
 
 # ============================================================
-# HERO
+# VERIDIAN IT SERVICE AGENT
 # ============================================================
 
 st.html("""
 <div class="hero">
 
     <div class="hero-eyebrow">
-
         <span class="hero-icon">✦</span>
-
-        AI-powered enterprise intelligence
-
+        Veridian Corp · Internal IT Service
     </div>
 
     <div class="hero-title">
-
-        From scattered knowledge<br>
-        to decision-ready intelligence.
-
+        Resolve employee IT requests<br>
+        with policy-aware AI.
     </div>
 
     <div class="hero-description">
-
-        Research, analyze and transform complex information into
-        structured briefs, training material, SOPs and knowledge assets.
-
+        The Veridian IT Service Agent analyzes employee requests,
+        checks approved internal policies, identifies missing information,
+        and recommends whether to resolve, clarify, or escalate.
     </div>
 
 </div>
@@ -885,895 +844,182 @@ st.html("""
 
 
 # ============================================================
-# WALKTHROUGH STATE
+# REQUEST SELECTION
 # ============================================================
 
-if "walkthrough_step" not in st.session_state:
-    st.session_state.walkthrough_step = 0
-
-
-step = st.session_state.walkthrough_step
-
-total_steps = 4
-
-
-# ============================================================
-# WALKTHROUGH PROGRESS
-# ============================================================
-
-if step < 4:
-
-    progress_percent = (step / (total_steps - 1)) * 100
-
-    st.html(f"""
-    <div class="progress-wrapper walkthrough-screen">
-
-        <div class="progress-label">
-
-            <span>
-                ExperteezAI walkthrough
-            </span>
-
-            <span>
-                Step {step + 1} of {total_steps}
-            </span>
-
-        </div>
-
-        <div class="progress-track">
-
-            <div
-                class="progress-fill"
-                style="width: {progress_percent}%;">
-            </div>
-
-        </div>
-
-    </div>
-    """)
-
-
-# ============================================================
-# STEP 1 - WELCOME
-# ============================================================
-
-if step == 0:
-
-    st.html("""
-    <div class="step-shell">
-
-        <div class="step-title">
-
-
-
-            Turn company knowledge into useful intelligence.
-
-        </div>
-
-        <div class="step-description">
-
-            ExperteezAI helps internal teams turn scattered information,
-            public documentation, project context, and external evidence
-            into structured business knowledge.
-
-            Instead of starting with a blank document, describe what you
-            need and let the system organize the information into a useful
-            professional artifact.
-
-        </div>
-
-        <div
-            class="step-description"
-            style="font-weight:700; color:#0f172a;">
-
-            What can you create?
-
-        </div>
-
-        <div class="feature-grid">
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    ◈
-                </div>
-
-                <div class="feature-title">
-                    Leadership Brief
-                </div>
-
-                <div class="feature-description">
-
-                    Turn a business question into a concise,
-                    evidence-backed intelligence brief for leadership
-                    and decision discussions.
-
-                </div>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    ◉
-                </div>
-
-                <div class="feature-title">
-                    Training & Onboarding
-                </div>
-
-                <div class="feature-description">
-
-                    Turn technical or organizational knowledge into
-                    structured material that helps new employees learn
-                    faster.
-
-                </div>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    ≡
-                </div>
-
-                <div class="feature-title">
-                    SOP / Process
-                </div>
-
-                <div class="feature-description">
-
-                    Convert process knowledge into structured,
-                    actionable operating procedures and repeatable
-                    workflows.
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-    """)
-
-    st.write("")
-
-    if st.button(
-        "Continue",
-        type="primary",
-        use_container_width=True
-    ):
-
-        st.session_state.walkthrough_step = 1
-
-        st.rerun()
-
-
-# ============================================================
-# STEP 2 - LEADERSHIP BRIEF
-# ============================================================
-
-elif step == 1:
-
-    st.html("""
-    <div class="step-shell">
-
-        <div class="step-title">
-
-            <div class="step-icon">
-                ◈
-            </div>
-
-            Leadership Brief
-
-        </div>
-
-        <div class="step-description">
-
-            Give ExperteezAI a business question and it can organize
-            relevant information into a decision-oriented brief.
-
-        </div>
-
-    </div>
-    """)
+with st.container(border=True):
 
     st.markdown(
-        "**Example**\n\n"
-        "> Should our engineering team adopt a new backend technology "
-        "for the next generation of our platform?"
+        '<div class="form-section-title">'
+        '1. Select Employee Request'
+        '</div>',
+        unsafe_allow_html=True
     )
+
+    request_options = list(EMPLOYEE_REQUESTS.keys())
+
+    selected_request_id = st.selectbox(
+        "Employee Request",
+        request_options,
+        label_visibility="collapsed"
+    )
+
+    selected_request = EMPLOYEE_REQUESTS[selected_request_id]
+
+
+# ============================================================
+# REQUEST DETAILS
+# ============================================================
+
+with st.container(border=True):
 
     st.markdown(
-        "**The output can include**\n\n"
-        "- Executive summary\n"
-        "- Business context\n"
-        "- Key findings\n"
-        "- Options and trade-offs\n"
-        "- Risks and considerations\n"
-        "- Next steps"
+        '<div class="form-section-title">'
+        '2. Request Details'
+        '</div>',
+        unsafe_allow_html=True
     )
 
-    st.html("""
-    <div class="custom-callout">
+    col1, col2 = st.columns(2)
 
-        <strong>Best for:</strong>
-        leadership discussions, business decisions,
-        strategy preparation, and management briefs.
+    with col1:
+        st.markdown("**Employee**")
+        st.write(selected_request["employee"])
 
-    </div>
-    """)
+    with col2:
+        st.markdown("**Current Status**")
+        st.write(selected_request["status"])
 
-    st.write("")
-
-    back, next_button = st.columns(2)
-
-    with back:
-
-        if st.button(
-            "Back",
-            type="secondary",
-            use_container_width=True
-        ):
-
-            st.session_state.walkthrough_step = 0
-
-            st.rerun()
-
-    with next_button:
-
-        if st.button(
-            "Next",
-            type="primary",
-            use_container_width=True
-        ):
-
-            st.session_state.walkthrough_step = 2
-
-            st.rerun()
+    st.markdown("**Request**")
+    st.info(selected_request["request"])
 
 
 # ============================================================
-# STEP 3 - TRAINING
+# ANALYZE BUTTON
 # ============================================================
 
-elif step == 2:
+st.write("")
 
-    st.html("""
-    <div class="step-shell">
+if st.button(
+    "Analyze IT Request",
+    type="primary",
+    use_container_width=True
+):
 
-        <div class="step-title">
+    with st.spinner("Analyzing request against Veridian policies..."):
 
-            <div class="step-icon">
-                ◉
-            </div>
+        result = run_ai_agent(selected_request_id)
 
-            Training & Onboarding
 
-        </div>
+    # ========================================================
+    # RESULT
+    # ========================================================
 
-        <div class="step-description">
+    st.divider()
 
-            Turn existing technical or organizational knowledge into
-            structured learning material for new employees.
+    st.header("Service Agent Decision")
 
-        </div>
 
-    </div>
-    """)
+    decision = result.get("decision", "Clarify")
 
-    st.markdown(
-        "**Example**\n\n"
-        "> Create an onboarding guide for a new developer joining our "
-        "Node.js backend team."
+
+    if decision == "Resolve":
+
+        st.success(f"Decision: {decision}")
+
+    elif decision == "Escalate":
+
+        st.warning(f"Decision: {decision}")
+
+    else:
+
+        st.info(f"Decision: {decision}")
+
+
+    # ========================================================
+    # SUMMARY
+    # ========================================================
+
+    st.subheader("Summary")
+
+    st.write(
+        result.get(
+            "summary",
+            "No summary was returned."
+        )
     )
 
-    st.markdown(
-        "**The output can include**\n\n"
-        "- Topic overview\n"
-        "- Key concepts\n"
-        "- How the system works\n"
-        "- Practical examples\n"
-        "- Common mistakes\n"
-        "- Quick reference"
+
+    # ========================================================
+    # RECOMMENDED ACTION
+    # ========================================================
+
+    st.subheader("Recommended Action")
+
+    st.write(
+        result.get(
+            "recommended_action",
+            "No recommended action was returned."
+        )
     )
 
-    st.html("""
-    <div class="custom-callout">
 
-        <strong>Best for:</strong>
-        employee onboarding, knowledge transfer,
-        technical training, and learning material.
+    # ========================================================
+    # MISSING INFORMATION
+    # ========================================================
 
-    </div>
-    """)
-
-    st.write("")
-
-    back, next_button = st.columns(2)
-
-    with back:
-
-        if st.button(
-            "Back",
-            type="secondary",
-            use_container_width=True
-        ):
-
-            st.session_state.walkthrough_step = 1
-
-            st.rerun()
-
-    with next_button:
-
-        if st.button(
-            "Next",
-            type="primary",
-            use_container_width=True
-        ):
-
-            st.session_state.walkthrough_step = 3
-
-            st.rerun()
-
-
-# ============================================================
-# STEP 4 - SOP
-# ============================================================
-
-elif step == 3:
-
-    st.html("""
-    <div class="step-shell">
-
-        <div class="step-title">
-
-            <div class="step-icon">
-                ≡
-            </div>
-
-            SOP / Process Builder
-
-        </div>
-
-        <div class="step-description">
-
-            Turn process knowledge into a structured and actionable
-            standard operating procedure.
-
-        </div>
-
-    </div>
-    """)
-
-    st.markdown(
-        "**Example**\n\n"
-        "> Create an SOP for our new employee onboarding process."
+    missing_information = result.get(
+        "missing_information",
+        []
     )
 
-    st.markdown(
-        "**The output can include**\n\n"
-        "- Purpose and scope\n"
-        "- Required inputs\n"
-        "- Step-by-step procedure\n"
-        "- Roles and responsibilities\n"
-        "- Important checks\n"
-        "- Exceptions and risks\n"
-        "- Final checklist"
+    if missing_information:
+
+        st.subheader("Missing Information")
+
+        for item in missing_information:
+            st.write(f"• {item}")
+
+
+    # ========================================================
+    # TICKET ACTION
+    # ========================================================
+
+    st.subheader("Ticket Handling")
+
+    st.write(
+        result.get(
+            "ticket_action",
+            "No ticket action was returned."
+        )
     )
 
-    st.html("""
-    <div class="custom-callout">
 
-        <strong>Best for:</strong>
-        process documentation, standardization,
-        knowledge transfer, and operational workflows.
+    # ========================================================
+    # SOURCES
+    # ========================================================
 
-    </div>
-    """)
+    sources = result.get(
+        "sources",
+        []
+    )
 
-    st.write("")
+    st.subheader("Sources")
 
-    back, start = st.columns(2)
+    if sources:
 
-    with back:
+        for source in sources:
+            st.code(source)
 
-        if st.button(
-            "Back",
-            type="secondary",
-            use_container_width=True
-        ):
+    else:
 
-            st.session_state.walkthrough_step = 2
-
-            st.rerun()
-
-    with start:
-
-        if st.button(
-            "Start Creating",
-            type="primary",
-            use_container_width=True
-        ):
-
-            st.session_state.walkthrough_step = 4
-
-            st.rerun()
-
-
-# ============================================================
-# CREATION PAGE
-# ============================================================
-
-if st.session_state.walkthrough_step == 4:
-
-    # --------------------------------------------------------
-    # CREATION HEADER
-    # --------------------------------------------------------
-
-    st.html("""
-    <div class="creation-header">
-
-        <div class="creation-title-row">
-
-            <div class="creation-title-icon">
-                ▣
-            </div>
-
-            <h2 class="creation-title">
-                Create Internal Intelligence Report
-            </h2>
-
-        </div>
-
-        <p class="creation-description">
-
-            Specify your intelligence requirement below.
-            You can also paste optional public links such as GitHub,
-            Google Drive or documentation URLs to include contextual
-            evidence.
-
-        </p>
-
-    </div>
-    """)
+        st.write("No sources returned.")
 
 
     # ========================================================
-    # SECTION 1 - OUTPUT TYPE & DOMAIN
+    # RAW AI RESPONSE
     # ========================================================
 
-    with st.container(border=True):
+    with st.expander("View structured AI response"):
 
-        st.markdown(
-            '<div class="form-section-title">'
-            '1. Output Type & Knowledge Domain'
-            '</div>',
-            unsafe_allow_html=True
-        )
-
-        col_type, col_domain = st.columns(2)
-
-
-        # ----------------------------------------------------
-        # OUTPUT TYPE
-        # ----------------------------------------------------
-
-        with col_type:
-
-            st.markdown(
-                "**Output Type**"
-            )
-
-            output_type = st.selectbox(
-                "Output Type",
-                [
-                    "Leadership Brief",
-                    "Training & Onboarding",
-                    "SOP / Process",
-                    "Decision Analysis",
-                    "Knowledge Guide",
-                    "Other"
-                ],
-                label_visibility="collapsed"
-            )
-
-
-            custom_output_type = ""
-
-
-            if output_type == "Other":
-
-                custom_output_type = st.text_input(
-                    "Describe output type",
-                    placeholder=(
-                        "E.g., Technical evaluation, "
-                        "project handover document..."
-                    )
-                )
-
-
-        # ----------------------------------------------------
-        # DOMAIN
-        # ----------------------------------------------------
-
-        with col_domain:
-
-            st.markdown(
-                "**Knowledge Domain**"
-            )
-
-
-            domain_options = list(DOMAINS.keys()) + ["Other"]
-
-
-            domain = st.selectbox(
-                "Knowledge Domain",
-                domain_options,
-                label_visibility="collapsed"
-            )
-
-
-            custom_domain = ""
-
-
-            if domain == "Other":
-
-                custom_domain = st.text_input(
-                    "Describe knowledge domain",
-                    placeholder=(
-                        "E.g., Cybersecurity, Legal, "
-                        "Supply Chain..."
-                    )
-                )
-
-
-    # ========================================================
-    # SECTION 2 - TOPIC / QUESTION
-    # ========================================================
-
-    with st.container(border=True):
-
-        st.markdown(
-            '<div class="form-section-title">'
-            '2. Intelligence Requirement'
-            '</div>',
-            unsafe_allow_html=True
-        )
-
-
-        st.markdown(
-            "**What is your topic, question, or knowledge requirement?**"
-        )
-
-
-        query = st.text_area(
-            "Research Topic",
-            height=140,
-            placeholder=(
-                "Example: Evaluate whether our engineering team "
-                "should adopt a new backend technology for microservices."
-            ),
-            label_visibility="collapsed"
-        )
-
-
-    # ========================================================
-    # SECTION 3 - DETAIL & SOURCES
-    # ========================================================
-
-    with st.container(border=True):
-
-        st.markdown(
-            '<div class="form-section-title">'
-            '3. Detail & Supporting Sources'
-            '</div>',
-            unsafe_allow_html=True
-        )
-
-
-        col_length, col_sources = st.columns(2)
-
-
-        # ----------------------------------------------------
-        # OUTPUT LENGTH
-        # ----------------------------------------------------
-
-        with col_length:
-
-            st.markdown(
-                "**Detail & Length Level**"
-            )
-
-
-            output_length = st.radio(
-                "Choose the level of detail",
-                [
-                    "Standard",
-                    "Concise",
-                    "Detailed",
-                    "Custom"
-                ],
-                horizontal=True,
-                label_visibility="collapsed"
-            )
-
-
-            if output_length == "Standard":
-
-                max_words = 5000
-
-
-            elif output_length == "Concise":
-
-                max_words = 2500
-
-
-            elif output_length == "Detailed":
-
-                max_words = 7500
-
-
-            else:
-
-                max_words = st.number_input(
-                    "Maximum word budget",
-                    min_value=1000,
-                    max_value=10000,
-                    value=5000,
-                    step=500
-                )
-
-
-            st.caption(
-                f"Word target: **~{max_words:,} words**"
-            )
-
-
-        # ----------------------------------------------------
-        # PUBLIC SOURCES
-        # ----------------------------------------------------
-
-        with col_sources:
-
-            st.markdown(
-                "**Additional Public Source Links (Optional)**"
-            )
-
-
-            source_links = st.text_area(
-                "Public source links",
-                height=110,
-                placeholder=(
-                    "Paste public GitHub, Google Drive, "
-                    "or documentation URLs - one per line."
-                ),
-                label_visibility="collapsed"
-            )
-
-
-    # ========================================================
-    # GENERATE BUTTON
-    # ========================================================
-
-    st.write("")
-
-
-    if st.button(
-        "Generate Intelligence",
-        type="primary",
-        use_container_width=True
-    ):
-
-        # ----------------------------------------------------
-        # VALIDATE QUERY
-        # ----------------------------------------------------
-
-        if not query.strip():
-
-            st.warning(
-                "Please enter a business question or knowledge requirement."
-            )
-
-            st.stop()
-
-
-        # ----------------------------------------------------
-        # OUTPUT TYPE
-        # ----------------------------------------------------
-
-        final_output_type = output_type
-
-
-        if output_type == "Other":
-
-            if not custom_output_type.strip():
-
-                st.warning(
-                    "Please describe the output you want to create."
-                )
-
-                st.stop()
-
-
-            final_output_type = custom_output_type.strip()
-
-
-        # ----------------------------------------------------
-        # DOMAIN
-        # ----------------------------------------------------
-
-        final_domain = domain
-
-
-        if domain == "Other":
-
-            if not custom_domain.strip():
-
-                st.warning(
-                    "Please enter a knowledge domain."
-                )
-
-                st.stop()
-
-
-            final_domain = custom_domain.strip()
-
-
-        # ====================================================
-        # DOMAIN DETECTION
-        # ====================================================
-
-        with st.spinner(
-            "Identifying knowledge domain..."
-        ):
-
-            detected_domain = validate_domain(query)
-
-
-        col1, col2 = st.columns(2)
-
-
-        with col1:
-
-            st.html(f"""
-            <div class="custom-callout">
-
-                Selected Domain:
-                <strong>{final_domain}</strong>
-
-            </div>
-            """)
-
-
-        with col2:
-
-            st.html(f"""
-            <div class="custom-callout">
-
-                Detected Domain:
-                <strong>{detected_domain}</strong>
-
-            </div>
-            """)
-
-
-        # ----------------------------------------------------
-        # DOMAIN INFORMATION
-        # ----------------------------------------------------
-
-        if (
-            final_domain in DOMAINS
-            and detected_domain != final_domain
-        ):
-
-            st.caption(
-                f"The question was also identified as "
-                f"**{detected_domain}**, but your selected domain "
-                f"**{final_domain}** will be used."
-            )
-
-
-        # ====================================================
-        # GENERATION
-        # ====================================================
-
-        st.divider()
-
-
-        st.subheader(
-            "Building Intelligence"
-        )
-
-
-        research_status = st.empty()
-
-
-        research_status.info(
-            "Researching sources and preparing insights..."
-        )
-
-
-        st.divider()
-
-
-        st.header(
-            "ExperteezAI Intelligence"
-        )
-
-
-        section_placeholders = {}
-
-
-        completed_sections = set()
-
-
-        # ====================================================
-        # RUN EXISTING AGENT
-        # ====================================================
-
-        for event in run_agent(
-            domain=final_domain,
-            query=query,
-            output_type=final_output_type,
-            output_length=max_words,
-            public_sources=source_links
-        ):
-
-
-            # ------------------------------------------------
-            # SECTION GENERATED
-            # ------------------------------------------------
-
-            if event["type"] == "section":
-
-                research_status.info(
-                    "Intelligence is being generated..."
-                )
-
-
-                section = event["section"]
-
-                content = event["data"]
-
-
-                completed_sections.add(
-                    section
-                )
-
-
-                if section not in section_placeholders:
-
-                    section_placeholders[section] = st.empty()
-
-
-                placeholder = section_placeholders[
-                    section
-                ]
-
-
-                placeholder.markdown(
-                    content
-                )
-
-
-            # ------------------------------------------------
-            # GENERATION COMPLETE
-            # ------------------------------------------------
-
-            elif event["type"] == "complete":
-
-                research_status.success(
-                    "Intelligence generation completed."
-                )
-
-
-                st.divider()
-
-
-                st.success(
-                    "Intelligence report completed successfully."
-                )
+        st.json(result)
