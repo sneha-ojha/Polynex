@@ -970,7 +970,7 @@ st.html("""
 
     <div class="hero-eyebrow">
         <span class="hero-icon">✦</span>
-        Veridian Corp · Internal IT Service
+        Veridian Corp · Internal IT Service by Sneha Ojha
     </div>
 
     <div class="hero-title">
