@@ -1,4 +1,3 @@
-
 import streamlit as st
 
 from veridian.employee_requests import EMPLOYEE_REQUESTS
@@ -10,7 +9,7 @@ from veridian.ai_agent import run_ai_agent
 # ============================================================
 
 st.set_page_config(
-    page_title="ExperteezAI Enterprise",
+    page_title="Veridian IT Service Agent",
     page_icon="✦",
     layout="wide"
 )
@@ -27,29 +26,45 @@ st.html("""
 
 
 /* ============================================================
-   GLOBAL
+   COLOR SYSTEM
    ============================================================ */
 
 :root {
-    --bg: #f8fafc;
+    --bg: #f8f7fc;
     --surface: #ffffff;
-    --surface-soft: #f1f5f9;
+    --surface-soft: #f3f0fa;
 
-    --border: #cbd5e1;
-    --border-strong: #94a3b8;
+    --border: #d8d2e6;
+    --border-strong: #aaa0bf;
 
-    --text-main: #0f172a;
-    --text-muted: #475569;
-    --text-light: #64748b;
+    --text-main: #171321;
+    --text-muted: #554d63;
+    --text-light: #716980;
 
-    --accent-dark: #064e3b;
-    --accent-hover: #022c22;
-    --accent-emerald: #059669;
+    --accent-dark: #5b21b6;
+    --accent-purple: #7c3aed;
+    --accent-hover: #4c1d95;
 
-    --accent-soft: #ecfdf5;
-    --accent-border: #a7f3d0;
+    --accent-soft: #f3e8ff;
+    --accent-border: #c4b5fd;
+
+    --success-bg: #ecfdf5;
+    --success-border: #86efac;
+    --success-text: #14532d;
+
+    --warning-bg: #fff7ed;
+    --warning-border: #fdba74;
+    --warning-text: #7c2d12;
+
+    --info-bg: #eff6ff;
+    --info-border: #93c5fd;
+    --info-text: #1e3a8a;
 }
 
+
+/* ============================================================
+   GLOBAL
+   ============================================================ */
 
 html,
 body,
@@ -118,11 +133,9 @@ footer,
     align-items: center;
     justify-content: center;
 
-    color: white;
+    color: #ffffff;
     font-size: 24px;
     font-weight: 700;
-
-
 }
 
 
@@ -265,7 +278,7 @@ footer,
     align-items: center;
     justify-content: center;
 
-    color: white;
+    color: #ffffff;
 
     font-size: 21px;
     font-weight: 700;
@@ -310,8 +323,6 @@ footer,
 
     border-radius: 12px;
 
-
-
     transition:
         transform .2s ease,
         border-color .2s ease,
@@ -322,9 +333,9 @@ footer,
 .feature-card:hover {
     transform: translateY(-2px);
 
-    border-color: var(--accent-emerald);
+    border-color: var(--accent-purple);
 
-    box-shadow: 0 10px 20px rgba(15,23,42,.06);
+    box-shadow: 0 10px 20px rgba(91,33,182,.08);
 }
 
 
@@ -377,7 +388,7 @@ footer,
 .custom-callout {
     background-color: var(--surface);
 
-    border-left: 4px solid var(--accent-emerald);
+    border-left: 4px solid var(--accent-purple);
 
     border-top: 1px solid var(--border);
     border-right: 1px solid var(--border);
@@ -438,7 +449,7 @@ footer,
 .progress-fill {
     height: 100%;
 
-    background: var(--accent-dark);
+    background: var(--accent-purple);
 
     border-radius: 999px;
 
@@ -478,7 +489,7 @@ footer,
     align-items: center;
     justify-content: center;
 
-    color: white;
+    color: #ffffff;
 
     font-size: 21px;
     font-weight: 700;
@@ -531,8 +542,6 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 
     border-radius: 12px !important;
 
-
-
     margin-bottom: 20px !important;
 }
 
@@ -548,6 +557,14 @@ div[data-testid="stVerticalBlockBorderWrapper"] {
 .stCaption,
 [data-testid="stCaptionContainer"] {
     color: var(--text-main);
+}
+
+
+.stMarkdown h1,
+.stMarkdown h2,
+.stMarkdown h3,
+.stMarkdown h4 {
+    color: var(--text-main) !important;
 }
 
 
@@ -597,9 +614,7 @@ div[data-baseweb="textarea"] {
 div[data-baseweb="input"]:focus-within,
 div[data-baseweb="select"]:focus-within,
 div[data-baseweb="textarea"]:focus-within {
-    border-color: var(--accent-dark) !important;
-
-
+    border-color: var(--accent-purple) !important;
 }
 
 
@@ -681,8 +696,6 @@ div.stButton > button[kind="primary"] {
     padding: 12px 28px !important;
 
     border-radius: 8px !important;
-
-
 }
 
 
@@ -692,8 +705,6 @@ div.stButton > button[kind="primary"]:hover {
     border-color: var(--accent-hover) !important;
 
     color: #ffffff !important;
-
-
 
     transform: translateY(-1px);
 }
@@ -725,7 +736,7 @@ div.stButton > button[kind="secondary"] {
 
 
 div.stButton > button[kind="secondary"]:hover {
-    border-color: var(--text-main) !important;
+    border-color: var(--accent-purple) !important;
 
     background-color: var(--surface-soft) !important;
 }
@@ -739,10 +750,145 @@ div.stButton > button[kind="secondary"] span {
 
 /* ============================================================
    ALERTS
+   Dark text on light backgrounds
    ============================================================ */
 
 div[data-testid="stAlert"] {
     border-radius: 8px !important;
+}
+
+
+/* SUCCESS */
+
+div[data-testid="stAlert"]:has([data-testid="stMarkdownContainer"]) {
+    color: var(--text-main) !important;
+}
+
+
+div[data-testid="stAlert"] p,
+div[data-testid="stAlert"] span,
+div[data-testid="stAlert"] div {
+    color: inherit !important;
+}
+
+
+/* ============================================================
+   SUCCESS / WARNING / INFO CONTENT
+   ============================================================ */
+
+/* Success */
+
+div[data-testid="stAlert"][data-baseweb="notification"] {
+    color: var(--text-main) !important;
+}
+
+
+/* ============================================================
+   EXPANDERS
+   ============================================================ */
+
+div[data-testid="stExpander"] {
+    background: var(--surface) !important;
+
+    border: 1px solid var(--border) !important;
+
+    border-radius: 10px !important;
+
+    overflow: hidden !important;
+}
+
+
+div[data-testid="stExpander"] summary {
+    background: var(--surface) !important;
+
+    color: var(--text-main) !important;
+}
+
+
+div[data-testid="stExpander"] summary span {
+    color: var(--text-main) !important;
+
+    font-weight: 600 !important;
+}
+
+
+div[data-testid="stExpander"] summary p {
+    color: var(--text-main) !important;
+}
+
+
+div[data-testid="stExpander"] > div {
+    background: var(--surface) !important;
+
+    color: var(--text-main) !important;
+}
+
+
+div[data-testid="stExpander"] .stMarkdown,
+div[data-testid="stExpander"] .stMarkdown p,
+div[data-testid="stExpander"] .stMarkdown span {
+    color: var(--text-main) !important;
+}
+
+
+/* ============================================================
+   JSON / CODE BLOCKS
+   ============================================================ */
+
+div[data-testid="stJson"] {
+    background: #171321 !important;
+
+    border: 1px solid #302742 !important;
+
+    border-radius: 8px !important;
+
+    padding: 12px !important;
+}
+
+
+div[data-testid="stJson"] * {
+    color: #f5f3ff !important;
+}
+
+
+code {
+    color: #f5f3ff !important;
+}
+
+
+/* ============================================================
+   SOURCE CODE TAGS
+   ============================================================ */
+
+.stCodeBlock {
+    background: #171321 !important;
+
+    border-radius: 8px !important;
+}
+
+
+.stCodeBlock code {
+    color: #f5f3ff !important;
+}
+
+
+/* ============================================================
+   STREAMLIT INFO BOX
+   ============================================================ */
+
+div[data-testid="stAlert"][kind="info"] {
+    background-color: var(--info-bg) !important;
+
+    border: 1px solid var(--info-border) !important;
+
+    color: var(--info-text) !important;
+}
+
+
+div[data-testid="stAlert"][kind="info"] p,
+div[data-testid="stAlert"][kind="info"] span,
+div[data-testid="stAlert"][kind="info"] div {
+    color: var(--info-text) !important;
 }
 
 
@@ -813,7 +959,6 @@ hr {
 
 </style>
 """)
-
 
 
 # ============================================================
@@ -910,116 +1055,197 @@ if st.button(
 
         result = run_ai_agent(selected_request_id)
 
-
     # ========================================================
-    # RESULT
+    # SERVICE AGENT RESULT
     # ========================================================
 
     st.divider()
 
-    st.header("Service Agent Decision")
-
-
-    decision = result.get("decision", "Clarify")
-
-
-    if decision == "Resolve":
-
-        st.success(f"Decision: {decision}")
-
-    elif decision == "Escalate":
-
-        st.warning(f"Decision: {decision}")
-
-    else:
-
-        st.info(f"Decision: {decision}")
+    st.markdown("## AI Analysis Complete")
+    st.markdown("### Service Agent Decision")
 
 
     # ========================================================
-    # SUMMARY
+    # GET STRUCTURED RESULT
     # ========================================================
 
-    st.subheader("Summary")
-
-    st.write(
-        result.get(
-            "summary",
-            "No summary was returned."
-        )
+    decision = result.get(
+        "decision",
+        "Clarify"
     )
 
-
-    # ========================================================
-    # RECOMMENDED ACTION
-    # ========================================================
-
-    st.subheader("Recommended Action")
-
-    st.write(
-        result.get(
-            "recommended_action",
-            "No recommended action was returned."
-        )
+    summary = result.get(
+        "summary",
+        "No summary was returned."
     )
 
-
-    # ========================================================
-    # MISSING INFORMATION
-    # ========================================================
+    recommended_action = result.get(
+        "recommended_action",
+        "No recommended action was returned."
+    )
 
     missing_information = result.get(
         "missing_information",
         []
     )
 
-    if missing_information:
-
-        st.subheader("Missing Information")
-
-        for item in missing_information:
-            st.write(f"• {item}")
-
-
-    # ========================================================
-    # TICKET ACTION
-    # ========================================================
-
-    st.subheader("Ticket Handling")
-
-    st.write(
-        result.get(
-            "ticket_action",
-            "No ticket action was returned."
-        )
-    )
-
-
-    # ========================================================
-    # SOURCES
-    # ========================================================
-
     sources = result.get(
         "sources",
         []
     )
 
-    st.subheader("Sources")
+    ticket_action = result.get(
+        "ticket_action",
+        "Clarification needed"
+    )
 
-    if sources:
+    audit_trail = result.get(
+        "audit_trail",
+        []
+    )
 
-        for source in sources:
-            st.code(source)
+
+    # ========================================================
+    # DECISION
+    # ========================================================
+
+    if decision == "Resolve":
+
+        st.success(
+            "✓ RESOLVE\n\n"
+            "The request can be handled using an approved "
+            "Veridian procedure."
+        )
+
+    elif decision == "Escalate":
+
+        st.warning(
+            "! ESCALATE\n\n"
+            "The request requires human review, approval, "
+            "or specialist handling."
+        )
 
     else:
 
-        st.write("No sources returned.")
+        st.info(
+            "? CLARIFY\n\n"
+            "Additional information is required before "
+            "the request can be resolved."
+        )
 
 
     # ========================================================
-    # RAW AI RESPONSE
+    # SUMMARY + RECOMMENDED ACTION
     # ========================================================
 
-    with st.expander("View structured AI response"):
+    summary_col, action_col = st.columns(2)
+
+
+    with summary_col:
+
+        st.subheader("Analysis Summary")
+
+        st.write(summary)
+
+
+    with action_col:
+
+        st.subheader("Recommended Action")
+
+        st.write(recommended_action)
+
+
+    # ========================================================
+    # INFORMATION NEEDED
+    # ========================================================
+
+    st.subheader("Information Needed")
+
+
+    if missing_information:
+
+        for item in missing_information:
+
+            st.warning(item)
+
+    else:
+
+        st.success(
+            "✓ No additional information required"
+        )
+
+
+    # ========================================================
+    # TICKET HANDLING
+    # ========================================================
+
+    st.subheader("Ticket Handling")
+
+    st.info(
+        f"**{ticket_action}**"
+    )
+
+
+    # ========================================================
+    # EVIDENCE USED
+    # ========================================================
+
+    st.subheader("Evidence Used")
+
+
+    if sources:
+
+        source_cols = st.columns(
+            min(len(sources), 4)
+        )
+
+        for index, source in enumerate(sources):
+
+            with source_cols[
+                index % len(source_cols)
+            ]:
+
+                st.code(source)
+
+    else:
+
+        st.write(
+            "No policy or request sources returned."
+        )
+
+
+    # ========================================================
+    # AUDIT TRAIL
+    # ========================================================
+
+    if audit_trail:
+
+        with st.expander(
+            "View agent audit trail",
+            expanded=False
+        ):
+
+            for index, event in enumerate(
+                audit_trail,
+                start=1
+            ):
+
+                st.write(
+                    f"**{index}.** {event}"
+                )
+
+
+    # ========================================================
+    # STRUCTURED AI RESPONSE
+    # ========================================================
+
+    with st.expander(
+        "View structured AI response",
+        expanded=False
+    ):
+
+        st.caption(
+            "Machine-readable response returned by the service agent."
+        )
 
         st.json(result)
