@@ -16,6 +16,20 @@ The system also provides the sources used for its decision, identifies missing i
 
 ## What Polynex Does
 
+## Live Demo
+
+Try the deployed application here:
+
+**[Polynex Live](https://polynex.streamlit.app/)**
+
+You can interact with the application directly in your browser without setting it up locally.
+
+## Project Demo
+
+Watch the project walkthrough and demonstration:
+
+**[Polynex Pitch](https://drive.google.com/file/d/1ki_oCbvHResgbrr_mVc16okGchSmhM7A/view?usp=sharing)**
+
 An employee can submit a request such as:
 
 > "My laptop has been completely dead since this morning and it's 3.5 years old."
