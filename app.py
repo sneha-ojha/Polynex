@@ -9,7 +9,7 @@ from veridian.ai_agent import run_ai_agent
 # ============================================================
 
 st.set_page_config(
-    page_title="Veridian IT Service Agent",
+    page_title="Veridian IT Service Agent by Sneha Ojha",
     page_icon="✦",
     layout="wide"
 )

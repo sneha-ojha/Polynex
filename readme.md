@@ -1,643 +1,264 @@
-# ExperteezAI Enterprise
+# Polynex
 
-> **From scattered knowledge to decision-ready intelligence.**
+### Policy-aware AI for internal employee support
 
-**Internal Use - For Leads, Trainers & Knowledge Owners**
+Polynex is an AI-powered internal support agent that helps employees handle common IT, HR, and Finance-related requests.
 
-[**Click for Live Demo: ExperteezAI Enterprise**](https://experteezai-enterprise-v1.streamlit.app/)
+Instead of simply generating an answer, Polynex first understands the request, checks the available policies and ticket history, and then determines the appropriate next step:
 
-ExperteezAI Enterprise is an agentic AI platform designed for internal teams that need to turn complex information into useful, structured knowledge artifacts.
+- **Resolve** when enough information is available to handle the request
+- **Clarify** when important information is missing
+- **Escalate** when human review or another team is required
 
-Instead of treating AI as a general-purpose chatbot, ExperteezAI is designed around **specific organizational outcomes** helping leads, trainers, and knowledge owners create decision briefs, onboarding material, SOPs, knowledge guides, and other internal intelligence assets.
-
----
-
-## The Problem
-
-Important organizational knowledge is often spread across:
-
-- Public documentation
-- GitHub repositories
-- Technical resources
-- External research
-- Existing processes
-- Project context
-- Domain-specific sources
-
-Turning this information into something useful still requires significant manual work.
-
-A person may need to:
-
-1. Define the actual question
-2. Find relevant sources
-3. Research the topic
-4. Compare information
-5. Organize the evidence
-6. Decide what matters
-7. Structure the information
-8. Write the final document
-
-ExperteezAI Enterprise brings these stages into a single agentic workflow.
+The system also provides the sources used for its decision, identifies missing information, suggests the next action, and maintains an audit trail.
 
 ---
 
-## What ExperteezAI Enterprise Does
+## What Polynex Does
 
-A user starts with a **knowledge requirement**, rather than a conversation.
+An employee can submit a request such as:
 
-For example:
+> "My laptop has been completely dead since this morning and it's 3.5 years old."
 
-> "Evaluate whether our engineering team should adopt a new backend technology for microservices."
+Polynex analyzes the request against the available knowledge base and existing ticket information.
 
-or:
+For a request like this, it can identify that:
 
-> "Create an onboarding guide for a developer joining our Node.js backend team."
+- The laptop is old enough to potentially qualify for replacement.
+- The standard hardware refresh cycle has not yet been reached.
+- An early replacement requires additional approval.
+- The reported hardware failure still needs to be verified.
 
-or:
-
-> "Create an SOP for our employee onboarding process."
-
-The platform uses the requirement, selected domain, available sources, and requested output format to build a structured intelligence artifact.
-
-### The important distinction
-
-The output is not simply an AI-generated answer.
-
-It is intended to become something a team can **read, discuss, share, use for training, or turn into an operational document.**
+Instead of immediately giving a simple "yes" or "no", Polynex can escalate the request with the relevant reasoning and missing information.
 
 ---
 
-# Core Use Cases
-
-## 1. Leadership Briefs
-
-Business questions can be transformed into structured briefs containing areas such as:
-
-- Executive summary
-- Business context
-- Key findings
-- Options and trade-offs
-- Risks and considerations
-- Recommended areas for further investigation
-- Next steps
-
-This allows a complex question to be turned into a format suitable for leadership discussions.
-
----
-
-## 2. Training & Onboarding
-
-Existing technical or organizational knowledge can be transformed into structured learning material.
-
-For example:
-
-> "Create an onboarding guide for a new developer joining our Node.js backend team."
-
-The resulting material can cover:
-
-- Topic overview
-- Key concepts
-- System understanding
-- Practical examples
-- Common mistakes
-- Quick references
-
-This makes the same intelligence-generation infrastructure useful beyond research and decision-making.
-
----
-
-## 3. SOP & Process Building
-
-Process information can be converted into actionable operating procedures.
-
-For example:
-
-> "Create an SOP for our new employee onboarding process."
-
-The generated artifact can contain:
-
-- Purpose
-- Scope
-- Required inputs
-- Step-by-step procedure
-- Roles and responsibilities
-- Important checks
-- Exceptions
-- Risks
-- Final checklist
-
-The goal is to turn implicit process knowledge into something structured and repeatable.
-
----
-
-# Designed Around Outcomes, Not Chat
-
-Many AI interfaces begin with:
-
-> **"What would you like to ask?"**
-
-ExperteezAI Enterprise begins with:
-
-> **"What do you need to create?"**
-
-Users can select the intended output:
-
-- Leadership Brief
-- Training & Onboarding
-- SOP / Process
-- Decision Analysis
-- Knowledge Guide
-- Custom output
-
-This changes the workflow from:
-
-**Question → Answer**
-
-to:
-
-**Requirement → Research → Evidence → Synthesis → Intelligence Artifact**
-
----
-
-# Agentic Workflow
-
-ExperteezAI Enterprise uses a multi-stage agentic pipeline rather than relying on a single model response.
+## Core Workflow
 
 ```text
-                User Requirement
-                       │
-                       ▼
-              Domain / Context
-                  Validation
-                       │
-                       ▼
-                Source Discovery
-                       │
-          ┌────────────┼────────────┐
-          ▼            ▼            ▼
-       Web Search    GitHub       Domain Sources
-          │            │            │
-          └────────────┼────────────┘
-                       ▼
-                Evidence Collection
-                       │
-                       ▼
-                Evidence Synthesis
-                       │
-                       ▼
-              Structured Generation
-                       │
-                       ▼
-              Reflection / Refinement
-                       │
-                       ▼
-             Intelligence Artifact
+Employee Request
+       │
+       ▼
+Understand the Request
+       │
+       ▼
+Check Knowledge Base
+       │
+       ▼
+Check Existing Tickets
+       │
+       ▼
+Reason About Available Information
+       │
+       ▼
+┌─────────────┬──────────────┬─────────────┐
+│   Resolve   │   Clarify    │   Escalate  │
+└─────────────┴──────────────┴─────────────┘
+       │
+       ▼
+Structured Response
+       │
+       ├── Sources Used
+       ├── Missing Information
+       ├── Recommended Action
+       └── Audit Trail
 ```
 
-The system separates **research, evidence handling, synthesis, and generation** instead of asking one model call to perform everything at once.
-
 ---
 
-# Domain-Aware Intelligence
+## Key Features
 
-The platform supports domain-specific workflows while also allowing users to work outside predefined domains.
+### 1. Policy-aware reasoning
 
-Current specialized areas include:
+Polynex uses a defined knowledge base rather than relying on general assumptions.
 
-- Technology
-- Medicine
-- Business
-- History
-- Sports
-- Fashion
+Each decision can reference the specific policy or request that influenced it.
 
-There is also support for **custom domains**.
-
-Examples:
-
-- Cybersecurity
-- Legal
-- Supply Chain
-- Manufacturing
-- Education
-- Finance
-- Internal Operations
-
-This makes the architecture extensible rather than locking the platform to a fixed set of categories.
-
----
-
-# Source-Aware Research
-
-ExperteezAI Enterprise can combine multiple information sources during research.
-
-The architecture supports sources such as:
-
-- General web search
-- Tavily
-- GitHub
-- Hugging Face
-- Domain-specific sources
-- User-provided public URLs
-
-Users can also provide additional public links such as:
+Example:
 
 ```text
-https://github.com/...
-https://drive.google.com/...
-https://docs.example.com/...
+Sources:
+- KB-03
+- ASSET-POLICY
+- REQ-01
 ```
 
-These can provide project or organizational context alongside external information.
+This makes the reasoning easier to inspect and understand.
 
----
+### 2. Existing ticket awareness
 
-# Adaptive Output
+The agent checks existing tickets before recommending a new action.
 
-Different requirements need different levels of depth.
+This helps distinguish between:
 
-ExperteezAI Enterprise provides:
+- A completely new request
+- An issue that already has an active ticket
+- A previously resolved issue that can be used as historical context
 
-| Mode | Purpose |
-|---|---|
-| Concise | Quick intelligence and shorter briefs |
-| Standard | Balanced depth for everyday use |
-| Detailed | Deep analysis and comprehensive knowledge artifacts |
-| Custom | User-defined word budget |
+The system is designed to avoid unnecessarily duplicating active tickets.
 
-The structure of the generated artifact also adapts to the requested level of detail instead of simply changing the length of the same document.
+### 3. Resolve, Clarify, or Escalate
 
----
+Every request is classified into one of three practical outcomes.
 
-# Progressive Intelligence Generation
+**Resolve**
 
-Long-form AI generation can feel slow when users have to wait for the entire result.
+Used when the available information and policy are sufficient to provide or perform the appropriate next step.
 
-ExperteezAI Enterprise addresses this through progressive generation.
+**Clarify**
 
-Instead of waiting for the complete artifact:
+Used when the request is too vague or important information is missing.
 
-```text
-Start
-  ↓
-First sections appear
-  ↓
-Evidence synthesis continues
-  ↓
-Additional sections appear
-  ↓
-Complete artifact
+**Escalate**
+
+Used when the request requires another team, approval, security review, or human intervention.
+
+### 4. Missing information detection
+
+Polynex does not assume information that is not available.
+
+For example, if a policy depends on whether an employee is full-time or a contractor, the agent can ask for the employment type instead of guessing.
+
+### 5. Security-aware handling
+
+Security-related requests are treated differently from ordinary support requests.
+
+For example, suspected phishing or unauthorized access can be escalated immediately according to the available security guidance.
+
+### 6. Audit trail
+
+Each agent run can produce an audit trail showing the major stages of processing.
+
+This makes the system easier to inspect and debug.
+
+### 7. Structured AI response
+
+The final decision is returned in a structured format containing information such as:
+
+```json
+{
+  "decision": "Escalate",
+  "summary": "Laptop may qualify for early replacement...",
+  "recommended_action": "Verify hardware failure and obtain required approval.",
+  "sources": [
+    "KB-03",
+    "ASSET-POLICY",
+    "REQ-01"
+  ],
+  "missing_information": [
+    "Hardware failure verification"
+  ],
+  "ticket_action": "Create ticket"
+}
 ```
 
-This allows users to see meaningful output early while the deeper synthesis and remaining sections continue to be generated.
+---
 
-The underlying research workflow remains comprehensive while the interface provides faster feedback.
+## Why a Hybrid AI Approach?
+
+Polynex combines an LLM with deterministic application logic.
+
+The LLM is useful for:
+
+- Understanding natural-language requests
+- Interpreting employee descriptions
+- Connecting a request with relevant context
+- Producing structured reasoning
+
+Deterministic logic is useful for:
+
+- Enforcing critical policy conditions
+- Preventing unsupported decisions
+- Handling known edge cases consistently
+- Protecting important workflow rules
+
+This hybrid approach gives the application both **flexibility** and **predictability**.
 
 ---
 
-# Why the Platform Is Versatile
-
-The same intelligence engine can support different internal workflows.
+## Architecture
 
 ```text
-                         ExperteezAI
-                              │
-              ┌───────────────┼───────────────┐
-              │               │               │
-              ▼               ▼               ▼
-         Leadership       Training          Operations
-           Teams           Teams              Teams
-              │               │               │
-              ▼               ▼               ▼
-        Decision Brief    Onboarding          SOP
-              │               │               │
-              └───────────────┼───────────────┘
-                              ▼
-                    Structured Intelligence
+                    ┌─────────────────────┐
+                    │   Streamlit UI      │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │    AI Agent Layer   │
+                    │                     │
+                    │ Request Analysis    │
+                    │ Context Building    │
+                    │ Decision Making     │
+                    └──────────┬──────────┘
+                               │
+                ┌──────────────┼──────────────┐
+                ▼              ▼              ▼
+        ┌────────────┐ ┌─────────────┐ ┌─────────────┐
+        │ Knowledge  │ │ Employee    │ │   Ticket    │
+        │    Base    │ │  Requests   │ │    Queue    │
+        └────────────┘ └─────────────┘ └─────────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Decision + Evidence │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Structured Output   │
+                    │ + Audit Trail       │
+                    └─────────────────────┘
 ```
 
-The **output format changes according to the business requirement**, while the underlying intelligence pipeline remains reusable.
+---
+
+## Tech Stack
+
+- **Python**
+- **Streamlit**
+- **OpenAI-compatible API**
+- **OpenRouter**
+- **python-dotenv**
+- **JSON**
+- **Git & GitHub**
 
 ---
 
-# Built for Knowledge Owners
-
-ExperteezAI Enterprise is designed around users who already have a reason to create internal knowledge.
-
-Examples include:
-
-- Team leads
-- Trainers
-- Subject-matter experts
-- Technical leads
-- Managers
-- Knowledge owners
-- Operations teams
-
-These users often know **what information they need**, but assembling and structuring that information manually can be time-consuming.
-
-The platform acts as an intelligence-generation layer between the requirement and the final knowledge artifact.
-
----
-
-# Architecture
+## Project Structure
 
 ```text
-ExperteezAI-Enterprise/
+Polynex/
 │
 ├── app.py
+├── requirements.txt
+├── README.md
+├── .gitignore
 │
-├── agent.py
-├── router.py
-│
-├── planner.py
-├── executor.py
-├── synthesizer.py
-├── reflection.py
-├── validator.py
-│
-├── tools.py
-├── config.py
-├── prompts.py
-├── report.py
-│
-├── specialists/
-│   ├── base_specialist.py
-│   ├── technology.py
-│   ├── medicine.py
-│   ├── business.py
-│   ├── history.py
-│   ├── sports.py
-│   ├── fashion.py
-│   └── generic.py
-│
-└── sources/
+└── veridian/
+    ├── __init__.py
+    ├── ai_agent.py
+    ├── knowledge_base.py
+    ├── employee_requests.py
+    └── tickets.py
 ```
 
-### Main Components
-
-**`app.py`**
-
-Provides the Streamlit interface, walkthrough, requirement configuration, source input, progress feedback, and progressive output rendering.
-
-**`agent.py`**
-
-Acts as the entry point for the agentic workflow and routes requests to the appropriate specialist.
-
-**`router.py`**
-
-Determines which domain specialist should handle the request.
-
-**`specialists/`**
-
-Contains domain-specific and generic intelligence workflows.
-
-**`executor.py`**
-
-Executes source-search operations, including parallel source retrieval.
-
-**`synthesizer.py`**
-
-Combines collected information into a consolidated evidence layer.
-
-**`reflection.py`**
-
-Generates structured sections from the available evidence and supports iterative output generation.
-
-**`tools.py`**
-
-Contains integrations for external information retrieval.
-
-**`validator.py`**
-
-Handles domain identification and validation-related logic.
+The internal Python package currently uses the `veridian` directory name as part of the existing project structure.
 
 ---
 
-# Technology Stack
+## Running Locally
 
-### Frontend
-
-- Streamlit
-- HTML/CSS
-- Responsive enterprise-oriented UI
-
-### AI
-
-- OpenRouter
-- LLM-based planning and synthesis
-- Agentic multi-stage generation
-
-### Research & Retrieval
-
-- DDGS
-- Tavily
-- GitHub API
-- Hugging Face
-- Domain-specific web sources
-
-### Backend
-
-- Python
-- Modular specialist architecture
-- Concurrent source execution
-- Generator-based progressive output
-
----
-
-# Performance-Oriented Design
-
-Research can involve several independent external sources.
-
-Instead of executing every source sequentially:
-
-```text
-Source A → wait
-Source B → wait
-Source C → wait
-Source D → wait
-```
-
-the system can execute independent searches concurrently:
-
-```text
-              ┌→ Source A
-              ├→ Source B
-Query ────────┼→ Source C
-              └→ Source D
-                    │
-                    ▼
-              Combined Evidence
-```
-
-This reduces unnecessary waiting during the information-gathering stage.
-
-The interface then begins presenting generated sections while the remaining intelligence pipeline continues.
-
----
-
-# Extensibility
-
-The architecture is designed so new domains and output formats can be added without rebuilding the entire application.
-
-### Adding a Domain
-
-A specialized workflow can be added under:
-
-```text
-specialists/
-```
-
-and connected through:
-
-```text
-router.py
-```
-
-### Adding a New Source
-
-A retrieval tool can be added to:
-
-```text
-tools.py
-```
-
-and included in the relevant specialist workflow.
-
-### Adding a New Output Type
-
-The report structure can be extended through the section-generation logic without changing the underlying retrieval architecture.
-
-This separation keeps the system adaptable as enterprise requirements evolve.
-
----
-
-# Example Flow
-
-### Input
-
-```text
-Output Type:
-Decision Analysis
-
-Domain:
-Technology
-
-Requirement:
-Should our engineering team adopt a new backend technology
-for the next generation of our platform?
-
-Detail:
-Detailed
-```
-
-### Processing
-
-```text
-Requirement
-     ↓
-Technology Specialist
-     ↓
-Source Discovery
-     ↓
-Parallel Retrieval
-     ↓
-Evidence Synthesis
-     ↓
-Section Generation
-     ↓
-Reflection
-     ↓
-Decision-Oriented Intelligence
-```
-
-### Output
-
-A structured artifact containing relevant context, findings, comparisons, trade-offs, risks, and actionable considerations.
-
----
-
-# What Makes the Approach Distinct
-
-ExperteezAI Enterprise is built around several principles:
-
-### 1. Output-first interaction
-
-The user defines the **artifact they need**, not just a question they want answered.
-
-### 2. Domain-aware workflows
-
-The system can adapt its research and generation process to different knowledge domains.
-
-### 3. Multiple information sources
-
-The architecture is designed to combine external research, technical sources, domain sources, and user-provided context.
-
-### 4. Evidence before synthesis
-
-Information is gathered and consolidated before deeper sections of the artifact are generated.
-
-### 5. Progressive generation
-
-Users can begin seeing useful sections without waiting for the entire long-form artifact.
-
-### 6. One engine, multiple internal workflows
-
-The same architecture can produce leadership briefs, onboarding material, SOPs, decision analyses, and custom knowledge assets.
-
-### 7. Extensible architecture
-
-New domains, sources, and output types can be introduced without redesigning the complete platform.
-
----
-
-# Current Scope
-
-ExperteezAI Enterprise currently focuses on generating structured intelligence from:
-
-- User-defined requirements
-- Selected knowledge domains
-- External web information
-- Supported technical/domain sources
-- Public URLs supplied by the user
-
-It is designed as an **internal intelligence-generation platform**, rather than an employee-facing general chatbot.
-
----
-
-# Future Direction
-
-The architecture can be extended toward deeper enterprise workflows such as:
-
-- Private organizational knowledge bases
-- Document ingestion
-- Persistent company knowledge
-- Approval workflows
-- Human-in-the-loop review
-- Source traceability
-- Report export
-- Team workspaces
-- Role-based access
-- Agent observability
-- Specialized departmental agents
-- Integration with internal business systems
-
-These capabilities would allow the platform to move from intelligence generation toward broader enterprise knowledge workflows.
-
----
-
-# Getting Started
-
-## 1. Clone the Repository
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/sneha-ojha/ExperteezAI-Enterprise.git
-cd ExperteezAI-Enterprise
+git clone https://github.com/sneha-ojha/Polynex.git
+cd Polynex
 ```
 
-## 2. Create a Virtual Environment
+### 2. Create a virtual environment
 
-### Windows PowerShell
+On Windows:
 
 ```powershell
 python -m venv venv
@@ -649,43 +270,107 @@ Activate it:
 .\venv\Scripts\Activate.ps1
 ```
 
-## 3. Install Dependencies
+### 3. Install dependencies
 
 ```powershell
 pip install -r requirements.txt
 ```
 
-## 4. Configure Environment Variables
+### 4. Configure the API key
 
-Create a `.env` file and add the required API credentials.
-
-Example:
+Create a `.env` file in the project root:
 
 ```env
-OPENROUTER_API_KEY=your_key_here
-TAVILY_API_KEY=your_key_here
+OPENROUTER_API_KEY=your_api_key_here
 ```
 
-Use the keys required by the sources enabled in your configuration.
+Do not commit the `.env` file to GitHub.
 
-## 5. Run the Application
+### 5. Start the application
 
 ```powershell
 streamlit run app.py
 ```
 
-The application will open in your browser.
+The Streamlit application will open in your browser.
 
 ---
 
-# Product Philosophy
+## Example Requests
 
-ExperteezAI Enterprise is based on a simple idea:
+Polynex can handle different types of employee-support scenarios.
 
-> **AI becomes more useful when it is designed around the work that needs to get done.**
+### Direct resolution
 
-The platform therefore focuses less on producing another conversational interface and more on helping people transform scattered information into something their organization can actually use.
+```text
+"I need guest Wi-Fi for a guest tomorrow."
+```
 
-**Research becomes intelligence.**  
-**Knowledge becomes structured.**  
-**Requirements become usable artifacts.**
+The agent can identify that guest Wi-Fi is available for 24 hours and can be generated directly without creating an IT ticket.
+
+### Clarification
+
+```text
+"VPN stopped working."
+```
+
+If the available information is insufficient to determine the correct policy path, Polynex can ask for the required details instead of making assumptions.
+
+### Escalation
+
+```text
+"My laptop is completely dead and it's 3.5 years old."
+```
+
+The agent can identify the relevant replacement and asset-management rules, determine that additional verification or approval is required, and escalate accordingly.
+
+---
+
+## Design Principles
+
+### Don't invent information
+
+If a policy or piece of information is not available, Polynex should not make it up.
+
+### Prefer evidence
+
+Decisions should be connected to available policies, requests, or ticket information.
+
+### Ask when information is missing
+
+A useful support agent should know when it does not have enough information.
+
+### Escalate when necessary
+
+Not every problem should be automatically resolved by AI.
+
+### Keep decisions inspectable
+
+Sources, recommendations, and audit information make the agent's behavior easier to understand.
+
+---
+
+## Future Improvements
+
+Some areas that could be added as the project evolves:
+
+- Persistent database for employee requests and tickets
+- Authentication and role-based access
+- Real ticket creation through an API
+- More knowledge-base formats
+- Policy versioning
+- Retrieval-augmented generation
+- Evaluation datasets for measuring agent accuracy
+- Human approval workflows
+- Better observability and analytics
+- Deployment with a production backend
+
+---
+
+## Project Goal
+
+The goal of Polynex is not simply to build a chatbot.
+
+It is to explore how an AI agent can work within defined rules and operational context while knowing when to **answer, ask, or escalate**.
+
+That combination of natural-language understanding, policy-aware reasoning, structured decisions, and traceability is what makes Polynex useful as an internal support system.
